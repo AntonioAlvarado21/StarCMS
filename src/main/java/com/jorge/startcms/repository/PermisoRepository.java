@@ -31,7 +31,7 @@ public class PermisoRepository implements PermisoRep{
 	@Override
 	public boolean update(Permiso permiso) {
 
-		if((permiso.getIdPermiso()) != 0)
+		if(permiso.getIdPermiso() > 0)
 		{
 			String sql = String.format("update Permiso set Nombre='%s' "
 					+ "where IdPermiso='%d'", 

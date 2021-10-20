@@ -33,7 +33,7 @@ public class PostRepository implements PostRep {
 	@Override
 	public boolean update(Post post) {
 		
-		if((post.getIdPost()) != 0)
+		if(post.getIdPost() > 0)
 		{
 			String sql = String.format("update Post set Titulo='%s', Slug='%s', Extracto='%s',IdUsuario='%d',Categoria='%d',ImagenDestacada='%s',Tipo='%s' "
 					+ "where IdPost='%d'",

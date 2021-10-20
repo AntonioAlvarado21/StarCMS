@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.P
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.jorge.startcms.mapper.CategoriaMapper;
 import com.jorge.startcms.model.Categoria;
 
 @Repository
@@ -32,7 +33,7 @@ public class CategoriaRepository  implements CategoriaRep{
 	@Override
 	public boolean update(Categoria categoria) {
 		
-		if((categoria.getIdCategoria()) != 0)
+		if(categoria.getIdCategoria() > 0)
 		{
 			String sql = String.format("update Categoria set Nombre='%s', Descripcion='%s', CategoriaSuperior='%d' "
 					+ "where IdCategoria='%d'",
@@ -46,16 +47,20 @@ public class CategoriaRepository  implements CategoriaRep{
 		return false;
 	}
 
-	@Override
-	public Categoria findBy(int Id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<Categoria> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return jdbcTemplate.query("select * from Categoria",new CategoriaMapper());
+		
+	}
+	
+	@Override
+	public Categoria findBy(int Id) {
+
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from Categoria where IdCategoria = ?", params, new CategoriaMapper());
+		
 	}
 	
 }

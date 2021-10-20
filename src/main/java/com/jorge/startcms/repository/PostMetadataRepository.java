@@ -32,7 +32,7 @@ public class PostMetadataRepository implements PostMetadataRep{
 	@Override
 	public boolean update(PostMetadata postMetadata) {
 		
-		if((postMetadata.getIdPostMetadata()) != 0)
+		if(postMetadata.getIdPostMetadata() > 0)
 		{
 			String sql = String.format("update Post_Metadata set Clave='%s', Valor='%s', Tipo='%s',IdPost='%d' "
 					+ "where IdPostMetadata='%d'",

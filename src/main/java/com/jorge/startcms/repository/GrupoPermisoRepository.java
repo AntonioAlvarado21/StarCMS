@@ -32,7 +32,7 @@ public class GrupoPermisoRepository implements GrupoPermisoRep {
 	@Override
 	public boolean update(GrupoPermiso grupoPermiso) {
 		
-		if((grupoPermiso.getIdGrupo()) != 0 && grupoPermiso.getIdPermiso() != 0)
+		if((grupoPermiso.getIdGrupo()) > 0 && grupoPermiso.getIdPermiso() > 0)
 		{
 			String sql = String.format("update Grupo_Permiso set IdGrupo='%d', IdPermiso='%d' "
 					+ "where (IdGrupo='%d' and IdPermiso='%d')", 

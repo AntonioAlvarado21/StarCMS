@@ -31,7 +31,7 @@ public class GrupoRepository implements GrupoRep{
 	@Override
 	public boolean update(Grupo grupo) {
 
-		if((grupo.getIdGrupo()) != 0)
+		if(grupo.getIdGrupo() > 0)
 		{
 			String sql = String.format("update Grupo set Nombre='%s' "
 					+ "where IdGrupo='%d'", 

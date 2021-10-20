@@ -33,7 +33,7 @@ public class UsuarioMetadataRepository implements UsuarioMetadataRep{
 	@Override
 	public boolean update(UsuarioMetadata usuarioMetadata) {
 		
-		if((usuarioMetadata.getIdUsuarioMetadata()) != 0)
+		if(usuarioMetadata.getIdUsuarioMetadata() > 0)
 		{
 			String sql = String.format("update Usuario_Metadata set Clave='%s', Valor='%s',Tipo='%s' "
 					+ "where (IdUsuarioMetadata='%d' and IdUsuario='%d')",

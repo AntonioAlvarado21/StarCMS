@@ -33,7 +33,7 @@ public class ContenidoRepository implements ContenidoRep {
 	@Override
 	public boolean update(Contenido contenido) {
 
-		if((contenido.getIdContenido()) != 0)
+		if(contenido.getIdContenido() > 0)
 		{
 			String sql = String.format("update Contenido set Tipo='%s', Contenido='%d', IdPost='%d' "
 					+ "where IdContenido='%d'", 

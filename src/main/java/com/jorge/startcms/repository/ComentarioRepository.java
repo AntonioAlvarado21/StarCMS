@@ -32,7 +32,7 @@ public class ComentarioRepository implements ComentarioRep {
 	@Override
 	public boolean update(Comentario comentario) {
 
-		if((comentario.getIdComentario()) != 0)
+		if(comentario.getIdComentario() > 0)
 		{
 			String sql = String.format("update Comentario set Comentario='%s', IdPost='%d', IdUsuario='%d', Respuesta='%s' "
 					+ "where IdComentario='%d'",

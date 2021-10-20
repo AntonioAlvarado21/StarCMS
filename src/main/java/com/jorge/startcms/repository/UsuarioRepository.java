@@ -32,7 +32,7 @@ public class UsuarioRepository implements UsuarioRep {
 	@Override
 	public boolean update(Usuario usuario) {
 
-		if((usuario.getIdUsuario()) != 0)
+		if(usuario.getIdUsuario() > 0)
 		{
 			String sql = String.format("update Usuario set Nombre='%s', Apellido='%s',Contrasena='%s',Correo='%s',IdGrupo='%d' "
 					+ "where IdUsuario='%d'",
