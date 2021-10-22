@@ -21,7 +21,7 @@ public class CategoriaMapper implements RowMapper<Categoria>{
 		categoria.setIdCategoria(rs.getInt("IdCategoria"));
 		categoria.setNombre(rs.getString("Nombre"));
 		
-		return null;
+		return categoria;
 	}
 
 }

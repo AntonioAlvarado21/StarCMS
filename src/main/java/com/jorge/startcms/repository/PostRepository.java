@@ -7,12 +7,16 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.P
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.jorge.startcms.mapper.PostMapper;
 import com.jorge.startcms.model.Post;
 
-@Repository
+import javax.sql.DataSource;
+
+//@Repository
 public class PostRepository implements PostRep {
-	
+
 	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
@@ -50,13 +54,24 @@ public class PostRepository implements PostRep {
 
 	@Override
 	public List<Post> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return jdbcTemplate.query("select * from Post",new PostMapper());
 	}
 
 	@Override
 	public Post findBy(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from Post where IdPost = ?", new PostMapper(),params);
 	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	
 }

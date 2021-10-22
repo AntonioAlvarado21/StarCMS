@@ -7,12 +7,16 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.P
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.jorge.startcms.mapper.PermisoMapper;
 import com.jorge.startcms.model.Permiso;
 
-@Repository
+import javax.sql.DataSource;
+
+//@Repository
 public class PermisoRepository implements PermisoRep{
 
 	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
@@ -46,14 +50,25 @@ public class PermisoRepository implements PermisoRep{
 
 	@Override
 	public List<Permiso> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return jdbcTemplate.query("select * from Permiso",new PermisoMapper());
 	}
 
 	@Override
 	public Permiso findBy(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from Permiso where IdPermiso = ?", new PermisoMapper(),params);
 	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	
 	
 }

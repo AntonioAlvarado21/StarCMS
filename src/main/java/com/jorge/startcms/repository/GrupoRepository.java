@@ -7,12 +7,16 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.P
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.jorge.startcms.mapper.GrupoMapper;
 import com.jorge.startcms.model.Grupo;
 
-@Repository
+import javax.sql.DataSource;
+
+//@Repository
 public class GrupoRepository implements GrupoRep{
 
 	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
@@ -46,14 +50,26 @@ public class GrupoRepository implements GrupoRep{
 
 	@Override
 	public List<Grupo> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return jdbcTemplate.query("select * from Grupo",new GrupoMapper());
 	}
 
 	@Override
 	public Grupo findBy(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from Grupo where IdGrupo = ?", new GrupoMapper(),params);
+		
 	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	
 	
 }

@@ -5,15 +5,26 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+//import org.springframework.stereotype.Repository;
 
+import com.jorge.startcms.mapper.ComentarioMapper;
 import com.jorge.startcms.model.Comentario;
 
-@Repository
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
+//@Repository
 public class ComentarioRepository implements ComentarioRep {
 
 	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
+
+	@PostConstruct
+	public void postContruct()
+	{
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	@Override
 	public boolean save(Comentario comentario) {
@@ -48,13 +59,24 @@ public class ComentarioRepository implements ComentarioRep {
 
 	@Override
 	public List<Comentario> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return jdbcTemplate.query("select * from Comentario",new ComentarioMapper());
 	}
 
 	@Override
 	public Comentario findBy(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from Comentario where IdComentario = ?", new ComentarioMapper(),params);
 	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	
 }

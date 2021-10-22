@@ -7,12 +7,16 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.P
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.jorge.startcms.mapper.UsuarioMetadataMapper;
 import com.jorge.startcms.model.UsuarioMetadata;
 
-@Repository
+import javax.sql.DataSource;
+
+//@Repository
 public class UsuarioMetadataRepository implements UsuarioMetadataRep{
 
 	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
@@ -49,13 +53,24 @@ public class UsuarioMetadataRepository implements UsuarioMetadataRep{
 
 	@Override
 	public List<UsuarioMetadata> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return jdbcTemplate.query("select * from Usuario_Metadata",new UsuarioMetadataMapper());
 	}
 
 	@Override
 	public UsuarioMetadata findBy(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from Usuario_Metadata where IdUsuarioMetadata = ?", new UsuarioMetadataMapper(),params);
 	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	
 }

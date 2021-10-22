@@ -2,19 +2,29 @@ package com.jorge.startcms.repository;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+//import org.springframework.stereotype.Repository;
 
 import com.jorge.startcms.mapper.CategoriaMapper;
 import com.jorge.startcms.model.Categoria;
 
-@Repository
+//@Repository
 public class CategoriaRepository  implements CategoriaRep{
 
 	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
+	
+	@PostConstruct
+	public void postContruct()
+	{
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 	
 	@Override
 	public boolean save(Categoria categoria)
@@ -55,12 +65,27 @@ public class CategoriaRepository  implements CategoriaRep{
 		
 	}
 	
+
 	@Override
 	public Categoria findBy(int Id) {
 
 		Object[] params = new Object[] {Id};
-		return jdbcTemplate.queryForObject("select * from Categoria where IdCategoria = ?", params, new CategoriaMapper());
+		return jdbcTemplate.queryForObject("select * from Categoria where IdCategoria = ?", new CategoriaMapper(), params);
 		
 	}
+
+	/*public void deleteAll(){
+		jdbcTemplate.execute("delete from Categoria");
+	}*/
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	
 	
 }
